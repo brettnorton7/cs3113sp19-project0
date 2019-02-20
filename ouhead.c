@@ -46,6 +46,13 @@ int main(int argc, char* argv[])
 
 		else
 		{
+			if (argc == 4)
+			{
+				if (access(argv[3], F_OK) == -1)
+				{
+					syserrmsg("file not found");
+				}
+			}
 			char command[50];
 			strcpy(command, "head ");
 			for (int i = 1; i < argc; i++)
