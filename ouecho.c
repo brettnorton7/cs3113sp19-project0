@@ -2,8 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-char command[50];			//char array for the storage of the system command
-
 int main(int argc, char* argv[])
 {
 	if (argc == 1)			//no arguments passed
@@ -13,14 +11,11 @@ int main(int argc, char* argv[])
 	}
 	else
 	{
-		printf("%d\n", argc);
-		strcpy(command, "echo ");		//set up the command with echo
-		for (int i = 1; i <= argc-1; i++)	//iterate through the args
+		for (int i = 1; i < argc; i++)	//iterate through the args
 		{
-			strcat(command, argv[i]);
-			strcat(command, " ");
+			fprintf(stdout, "%s ", argv[i]);//print off each arg, separated by a space
 		}
-		system(command);
+		fprintf(stdout, "\n");		//end with a newline
 		exit(EXIT_SUCCESS);
 	}
 	return 0;
