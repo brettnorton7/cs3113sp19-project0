@@ -49,6 +49,13 @@ void usage_statement()
 	exit(EXIT_SUCCESS);
 }
 
+/*
+ * method to call cat on a given file
+ * parameters: 
+ * 	file_name: the name of the file on which to call cat
+ *
+ * returns: none
+ */
 void oucat(char file_name[])			//method to print off the contents of a file	
 {
 	if (access(file_name, F_OK) != -1)	//check to see if the file exists, if it does then use a system call to cat the file passed in

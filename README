@@ -1,1 +1,13 @@
-This is the README file
+Brett Norton
+2/20/2019
+These commands closely mirror the regular linux shell commands
+they can each be run by typing ./<command>
+valid commands are "oucat" "ouecho" "ouhead" "outail" "ouseq" and "ouwc"
+
+assumptions made about this program in its writing include:
+1. That any command not specifically designed to handle multiple files should be able to handle multiple files
+2. That unless specified, no command line flags are to be valid
+3. That if a set of command line flags are specified to be valid, then no otehr flags are to be valid
+
+External resources include:
+stackoverflow.com where I learned about the access() function to tell if a file exists

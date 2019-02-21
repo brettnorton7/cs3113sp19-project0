@@ -7,7 +7,7 @@ void usage_statement();							//method for printing the usage statement
 void ouhead(char * file,int lines);
 void syserrmsg(char * error_message);
 
-int main(int argc, char* argv[])
+void main(int argc, char* argv[])
 {
 	int max_lines = 10;						//the number of lines that the program will use
 	if (argc == 1)
@@ -22,38 +22,35 @@ int main(int argc, char* argv[])
 	{
 		if (argc == 2)						//if there are only two args
 		{
-			//char file[50];
-			//strcpy(file, argv[1]);				//assume that the second arg is the file name
-			//ouhead(file, max_lines);			//try to call ouhead() on it
-			if (access(argv[1], F_OK) != -1)
+			if (access(argv[1], F_OK) != -1)		//then the second should be a file, so make sure that it exists
 			{
-				char command[50];
+				char command[50];			//and call head on it with the default 10 lines
 				strcpy(command, "head -n 10 ");
 				strcat(command, argv[1]);
 				system(command);
 				exit(EXIT_SUCCESS);
 			}
-			else 
+			else 						//if the file does not exist, then throw an error
 			{
 				syserrmsg("file not found");
 			}
 		}
 
-		if (argc > 4)
+		if (argc > 4)						//my understanding is that this program can only have one file, which means max four args
 		{
-			syserrmsg("too many args");
+			syserrmsg("too many args");			//and if there are more then that is an error
 		}
 
 		else
 		{
-			if (argc == 4)
+			if (argc == 4)					//if there are four args, then the last one argv[3] should be the file
 			{
-				if (access(argv[3], F_OK) == -1)
+				if (access(argv[3], F_OK) == -1)	//and if it doesnt exist then thats an error
 				{
 					syserrmsg("file not found");
 				}
 			}
-			char command[50];
+			char command[50];				//otherwise call head with the rest of the arguments
 			strcpy(command, "head ");
 			for (int i = 1; i < argc; i++)
 			{
@@ -64,7 +61,7 @@ int main(int argc, char* argv[])
 			exit(EXIT_SUCCESS);
 		}
 	}
-	return 0;
+	return;								//should never get here, but just in case
 }
 
 /*
@@ -78,24 +75,13 @@ void usage_statement()
 	exit(EXIT_SUCCESS);
 }
 
-void ouhead(char * file, int lines)
-{
-	if (access(file, F_OK) != -1)
-	{
-		char command[50];
-		char number[50];
-		sprintf(number, "%d ", lines);
-		strcpy(command, "head -n ");
-		strcat(command, number);
-		strcat(command, file);
-		system(command);
-	}
-	else 
-	{
-		syserrmsg("file not found");
-	}
-}
-
+/*
+ * method to print an error message and exit the code with a failure
+ * parameters
+ * 	error_message: details about why the error was thrown
+ *
+ * returns: none
+ */
 void syserrmsg(char * error_message)
 {
 	fprintf(stderr, "Error: %s\n", error_message);

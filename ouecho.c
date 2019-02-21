@@ -2,6 +2,14 @@
 #include <stdlib.h>
 #include <string.h>
 
+/*
+ * main method of the program
+ * parameters:
+ * 	argc: the number of args taken in from the command line
+ * 	argv[]: the list of arguments passed in from the command line
+ *
+ * returns: none
+ */
 int main(int argc, char* argv[])
 {
 	if (argc == 1)			//no arguments passed
