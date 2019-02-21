@@ -24,6 +24,7 @@ void main(int argc, char* argv[])
 		for (int i = 1; i < argc; i++)	//iterate through the args
 		{
 			strcat(command, argv[i]); //add them to the command
+			strcat(command, " ");
 		}
 		system(command);		//run the "echo" command on all of them
 		exit(EXIT_SUCCESS);

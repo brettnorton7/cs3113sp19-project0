@@ -10,7 +10,42 @@ int flag(char * check);
 void main(int argc, char ** argv)
 {
 	char input[50];										//string to hold the args to be passed to ouwc()
+	FILE * file;
+	int l_flag = 0;
+	int c_flag = 0;
 
+	if (argc > 1)
+	{
+		for (int i = 1; i < argc; i++)
+		{
+			if (flag(argv[i]))
+			{
+				if (!strcmp(argv[i], "-c"))
+				{
+					c_flag = 1;
+				}
+				if (!strcmp(argv[i], "-l"))
+				{
+					l_flag = 1;
+				}
+			}
+			if (!flag(argv[i]))
+			{
+				file = fopen(argv[i], "r");
+				if (file == NULL)
+				{
+					syserrmsg("unrecognized input");
+				}
+			}
+		}
+	}
+	/*
+
+	if (argc == 1)
+	{
+		strcpy(input, " ");
+		ouwc(input);
+	}
 	if (argc == 2)										//if there are exactly 2 args...
 	{
 		if (!strcmp(argv[1], "-h"))							//and the second is the "-h" flag, then output the usage statement and exit success
@@ -18,6 +53,7 @@ void main(int argc, char ** argv)
 			printf("usage: [-l | -c] <file>\n");
 			exit(EXIT_SUCCESS);
 		}
+		//
 		else 										//otherwise argv[1] should be a file, so check if it exists
 		{
 			if (access(argv[1], F_OK) != -1)					//and if it does then call ouwc() on it with the standard flags
@@ -31,7 +67,23 @@ void main(int argc, char ** argv)
 				syserrmsg("file not found");
 			}
 		}
+		
+	} 
+	strcpy(input, "wc ");
+	for (int i = 1; i < argc; i++)
+	{
+		if ((flag(argv[i])) || (access(argv[i], F_OK) != -1))
+		{
+			strcat(input, argv[i]);
+			printf("%s added\n", argv[i]);
+		}
+		else
+		{
+			syserrmsg("input must be valid flag or file");
+		}
 	}
+	ouwc(input);
+	
 	else 
 	{
 		if (argc == 3)									//if there are 3 args then there should be one flag in the argv[1] position
@@ -70,6 +122,7 @@ void main(int argc, char ** argv)
 			syserrmsg("file not found");
 		}
 	}
+	*/
 
 	return;											//should never get here
 }
