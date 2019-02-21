@@ -6,40 +6,56 @@ void syserrmsg(char * error_message);
 
 void main(int argc, char ** argv)
 {
-	char command[50];
-	strcpy(command, "seq ");				//setting up the command string with the "seq" call
-
-	if ((!strcmp(argv[1], "-h")) && (argc == 2))		//in the evet that there are only two args and the non-calling one is "-h", print the usage statement
+	if (argc == 2)
 	{
-		printf("Usage: ouseq [M] N");
+		if (!strcmp(argv[1], "-h"))
+		{
+			printf("Usage: ouseq [M] N");
+			exit(EXIT_SUCCESS);
+		}
+		int value = atoi(argv[1]);
+		for(int i = 0; i < value; i++)
+		{
+			printf("%d\n", i);
+		}
 		exit(EXIT_SUCCESS);
 	}
-	if (argc < 3)						//this command should take in at most 2 args, so if there are more than three (including the calling arg) then error
+	if (argc < 3)
 	{
-		syserrmsg("too many args");
+		syserrmsg("too many arguments");
 	}
-	else
+	if (argc == 1)
 	{
-		int first = atoi(argv[1]);			//otherwise compare the two numbers input
-		int second = atoi(argv[2]);
-		if (first <= second)				//if the first is the smaller of the two, or equal to the second, then call "seq" normally on them
+		syserrmsg("too few args");
+	}
+	else 
+	{
+		int value1 = atoi(argv[1]);
+		int value2 = atoi(argv[2]);
+
+		if (value1 == value2)
 		{
-			strcat(command, argv[1]);
-			strcat(command, " ");
-			strcat(command, argv[2]);
-			system(command);
+			printf("%d\n", value1);
 			exit(EXIT_SUCCESS);
 		}
-		if (first > second)				//if the second is the smaller of the two, then run "seq" but with the "-1" flag to reverse the direction
+		else if (value1 < value2)
 		{
-			strcat(command, argv[1]);
-                        strcat(command, " -1 ");
-                        strcat(command, argv[2]);
-			system(command);
+			for (int i = value1; i <= value2; i++)
+			{
+				printf("%d\n", i);
+			}
+			exit(EXIT_SUCCESS);
+		}
+		else if (value1 > value2)
+		{
+			for (int i = value1; i >= value2; i--)
+			{
+				printf("%d\n", i);
+			}
 			exit(EXIT_SUCCESS);
 		}
 	}
-	return;							//should never get here
+	return;
 }
 /*
  * method to handle errors by printing a message

@@ -12,21 +12,19 @@
  */
 void main(int argc, char* argv[])
 {
-	char command[50];
-	strcpy(command, "echo ");
-	if (argc == 1)			//no arguments passed
+	if (argc > 1)
 	{
-		system(command);	//call "echo" on nothing
+		for (int i = 1; i < argc - 1; i++)
+		{
+			printf("%s ",argv[i]);
+		}
+		printf("%s", argv[argc - 1]);
+		printf("\n");
 		exit(EXIT_SUCCESS);
 	}
-	else
+	else 
 	{
-		for (int i = 1; i < argc; i++)	//iterate through the args
-		{
-			strcat(command, argv[i]); //add them to the command
-			strcat(command, " ");
-		}
-		system(command);		//run the "echo" command on all of them
+		printf("\n");
 		exit(EXIT_SUCCESS);
 	}
 	return;

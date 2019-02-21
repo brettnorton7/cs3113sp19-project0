@@ -9,7 +9,18 @@ void syserrmsg(char * error_message);
 
 void main(int argc, char* argv[])
 {
-	int max_lines = 10;						//the number of lines that the program will use
+	int default_lines = 10;						//the number of lines that the program will use
+	char buffer[1000000];
+	if (argc == 1)
+	{
+		for(int i = 0; i < default_lines; i++)
+		{
+			scanf("%s", buffer);
+			printf("%s\n", buffer);
+		}
+	}
+	/*
+
 	if (argc == 1)
 	{
 		//no_file(max_lines);
@@ -61,6 +72,7 @@ void main(int argc, char* argv[])
 			exit(EXIT_SUCCESS);
 		}
 	}
+	*/
 	return;								//should never get here, but just in case
 }
 
