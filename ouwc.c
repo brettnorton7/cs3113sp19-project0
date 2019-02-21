@@ -17,11 +17,11 @@ void main(int argc, char ** argv)
 	int number_of_lines = 0;
 	char filename[50];
 
-	if (argc > 1)
+	if (argc > 1)								//if there is only one arg then it should be a flag or a file
 	{
 		for (int i = 1; i < argc; i++)
 		{
-			if (flag(argv[i]))
+			if (flag(argv[i]))					//check for flag
 			{
 				if (!strcmp(argv[i], "-c"))
 				{
@@ -35,11 +35,11 @@ void main(int argc, char ** argv)
 			if (!flag(argv[i]))
 			{
 				file = fopen(argv[i], "r");
-				if (file != NULL)
+				if (file != NULL)				//check for file
 				{
 					strcpy(filename, argv[i]);
 				}
-				if (file == NULL)
+				if (file == NULL)				//if neither, then throw error
 				{
 					syserrmsg("unrecognized input");
 				}
@@ -47,11 +47,11 @@ void main(int argc, char ** argv)
 		}
 	}
 
-	if (file != NULL)
+	if (file != NULL)							//if there is a file
 	{
 		char c;
 		number_of_lines = 0;
-		for (c = getc(file); c != EOF; c = getc(file))
+		for (c = getc(file); c != EOF; c = getc(file))			//then count the lines
 		{
 			if (c == '\n')
 			{
@@ -60,8 +60,8 @@ void main(int argc, char ** argv)
 		}
 		int file_descriptor = open(filename, O_RDONLY);
 		char buffer[1000000];
-		number_of_bytes = read(file_descriptor, buffer, 1000000);
-		if (l_flag == 1)
+		number_of_bytes = read(file_descriptor, buffer, 1000000);	//count the bytes
+		if (l_flag == 1)						//check what to print and print it
                         printf("%8d", number_of_lines);
 		if (c_flag == 1)
 			printf("%8d", number_of_bytes);
@@ -73,16 +73,16 @@ void main(int argc, char ** argv)
 		printf("\n");
 		exit(EXIT_SUCCESS);
 	}
-	if (file == NULL)
+	if (file == NULL)							//if there wasnt a file
 	{
 		char buffer[1000000];
 		int i;
-		while(i = read(0, buffer, 1000000))
+		while(i = read(0, buffer, 1000000))				//kep reading from stdin
 		{
 			number_of_lines++;
 			number_of_bytes = number_of_bytes + i;
 		}
-		if (l_flag == 1)
+		if (l_flag == 1)						//check what you need to print
 			printf("%8d\n", number_of_lines);
 		if (c_flag == 1)
 			printf("%8d\n", number_of_bytes);

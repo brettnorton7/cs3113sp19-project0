@@ -9,57 +9,106 @@ void syserrmsg(char * error_message);
 
 void main(int argc, char* argv[])
 {
-        int max_lines = 10;                                             //the number of lines that the program will use
-        if (argc == 1)
+	int lines = 10;                                         //the number of lines that the program will use
+        char buffer[1000000];
+        FILE * file;
+        if (argc == 1)                                          //if there is only one arg, then its use default lines and read in lines from stdin
         {
-                //no_file(max_lines);
+                for(int i = 0; i < lines; i++)
+                {
+                        scanf("%s", buffer);
+                        printf("%s\n", buffer);
+                }
+                exit(EXIT_SUCCESS);
         }
-        if (strcmp(argv[1], "-h") == 0)                                 //if the user asks for the usage statment...
+        if (argc == 2)                                          //if there are two args, the second should either be a file or -h
         {
-                usage_statement();                                      //call the usage_statement method
+                if (!strcmp(argv[1], "-h"))	
+                        usage_statement();
+                file = fopen(argv[1], "r");
+                if(file == NULL)
+                        syserrmsg("file not found");
+
+		char c;
+                int n = 0;
+                for (c = getc(file); c != EOF; c = getc(file))
+                {
+                        if (c == '\n')
+                        {
+                                n ++;
+                        }
+                }
+		fclose(file);
+		file = fopen(argv[1], "r");
+                for(int i = 0; i < n; i ++)
+                {
+                        fgets(buffer, 1000000, file);
+			if(i >= (n - lines))
+                        	printf("%s", buffer);
+                }
+                exit(EXIT_SUCCESS);
         }
-        else
+        if (argc == 3)                                          //if there are three args then the second and third should be "-n" and an int
         {
-                if (argc == 2)                                          //if there are only two args
+                if (strcmp(argv[1], "-n"))
+                        syserrmsg("flag not recognized");
+                lines = atoi(argv[2]);
+                for(int i = 0; i < lines; i ++)
                 {
-                        if (access(argv[1], F_OK) != -1)		//then the last one will be the file, so check to be sure it exists
-                        {
-                                char command[50];			//and call tail on it with the default 10 lines
-                                strcpy(command, "tail -n 10 ");
-                                strcat(command, argv[1]);
-                                system(command);
-                                exit(EXIT_SUCCESS);
-                        }
-                        else						//if the file does not exist, then throw an error
-                        {
-                                syserrmsg("file not found");
-                        }
+                        fgets(buffer, 1000000, stdin);
+                        printf("%s", buffer);
                 }
+                exit(EXIT_SUCCESS);
+        }
+        if (argc == 4)                                          //if there are four args then they should be "-n", an int, and a file respectively
+        {
+                if (strcmp(argv[1], "-n"))
+                        syserrmsg("flag not recognized");
+                lines = atoi(argv[2]);
+                file = fopen(argv[3], "r");
+                if (file == NULL)
+                        syserrmsg("file not found");
 
-                if (argc > 4)						//again its my understanding that this command should not accomodate multiple files
+		char c;
+                int n = 0;
+                for (c = getc(file); c != EOF; c = getc(file))
                 {
-                        syserrmsg("too many args");			//so more than 4 args throws an error
+                        if (c == '\n')
+                        {
+                                n ++;
+                        }
                 }
+                fclose(file);
+                file = fopen(argv[3], "r");
+                for(int i = 0; i < n; i ++)
+                {
+                        fgets(buffer, 1000000, file);
+                        if(i >= (n - lines))
+                                printf("%s", buffer);
+                }
+                exit(EXIT_SUCCESS);
+		/*
+                char c;
+		int i = 0;
+                for (c = getc(file); c != EOF; c = getc(file))
+                {
+                        if (c == '\n')
+                        {
+                                i ++;
+                        }
+                }
+                if (i < lines)
+                        lines = i;
 
-                else
+                fclose(file);
+                file = fopen(argv[3], "r");
+                for(int i = 0; i < lines; i ++)
                 {
-			if (argc == 4)					//if there are 4 args...
-                        {
-                                if (access(argv[3], F_OK) == -1)	//then the last one should be the file so check to make sure it exists
-                                {
-                                        syserrmsg("file not found");	//and if it does not then throw an error
-                                }
-                        }
-                        char command[50];				//otherwise run "tail" on the rest of the args
-                        strcpy(command, "tail ");
-                        for (int i = 1; i < argc; i++)
-                        {
-                                strcat(command, argv[i]);
-                                strcat(command, " ");
-                        }
-                        system(command);
-                        exit(EXIT_SUCCESS);
+                        fgets(buffer, 1000000, file);
+                        printf("%s", buffer);
                 }
+                exit(EXIT_SUCCESS);
+		*/
         }
         return;								//again the program should never reach this return statement
 }

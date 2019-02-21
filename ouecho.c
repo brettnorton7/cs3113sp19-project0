@@ -12,17 +12,17 @@
  */
 void main(int argc, char* argv[])
 {
-	if (argc > 1)
+	if (argc > 1)					//if something is passed in
 	{
 		for (int i = 1; i < argc - 1; i++)
 		{
-			printf("%s ",argv[i]);
+			printf("%s ",argv[i]);		//print each argument
 		}
-		printf("%s", argv[argc - 1]);
+		printf("%s", argv[argc - 1]);		//print the last one without the trailing space
 		printf("\n");
 		exit(EXIT_SUCCESS);
 	}
-	else 
+	else 						//otherwise print a newline
 	{
 		printf("\n");
 		exit(EXIT_SUCCESS);

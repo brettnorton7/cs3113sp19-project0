@@ -9,70 +9,88 @@ void syserrmsg(char * error_message);
 
 void main(int argc, char* argv[])
 {
-	int default_lines = 10;						//the number of lines that the program will use
+	int lines = 10;						//the number of lines that the program will use
 	char buffer[1000000];
-	if (argc == 1)
+	FILE * file;
+	if (argc == 1)						//if there is only one arg, then its use default lines and read in lines from stdin
 	{
-		for(int i = 0; i < default_lines; i++)
+		for(int i = 0; i < lines; i++)
 		{
 			scanf("%s", buffer);
 			printf("%s\n", buffer);
 		}
+		exit(EXIT_SUCCESS);
 	}
-	/*
-
-	if (argc == 1)
+	if (argc == 2)						//if there are two args, the second should either be a file or -h
 	{
-		//no_file(max_lines);
+		if (!strcmp(argv[1], "-h"))			//if the only arg is "-h" then print the usage statement
+			usage_statement();
+		file = fopen(argv[1], "r");			//otherwise try to open the arg
+		if(file == NULL)
+			syserrmsg("file not found");
+		char c;
+                int i = 0;
+                for (c = getc(file); c != EOF; c = getc(file))	//count the number of lines in the file
+                {
+                        if (c == '\n')
+                        {
+                                i ++;
+                        }
+                }
+                if (i < lines)					//if the program is asking for more lines than the program has, they just print the program
+                        lines = i;
+
+                fclose(file);
+                file = fopen(argv[1], "r");			//reopen file to reset the file offset
+                for(int i = 0; i < lines; i ++)
+                {
+                        fgets(buffer, 1000000, file);		//print out the lines
+                        printf("%s", buffer);
+                }
+                exit(EXIT_SUCCESS);
 	}
-	if (strcmp(argv[1], "-h") == 0)                                 //if the user asks for the usage statment...
-        {
-                usage_statement();                                      //call the usage_statement method
-        }
-	else 
+	if (argc == 3)						//if there are three args then the second and third should be "-n" and an int
 	{
-		if (argc == 2)						//if there are only two args
-		{
-			if (access(argv[1], F_OK) != -1)		//then the second should be a file, so make sure that it exists
-			{
-				char command[50];			//and call head on it with the default 10 lines
-				strcpy(command, "head -n 10 ");
-				strcat(command, argv[1]);
-				system(command);
-				exit(EXIT_SUCCESS);
-			}
-			else 						//if the file does not exist, then throw an error
-			{
-				syserrmsg("file not found");
-			}
-		}
-
-		if (argc > 4)						//my understanding is that this program can only have one file, which means max four args
-		{
-			syserrmsg("too many args");			//and if there are more then that is an error
-		}
-
-		else
-		{
-			if (argc == 4)					//if there are four args, then the last one argv[3] should be the file
-			{
-				if (access(argv[3], F_OK) == -1)	//and if it doesnt exist then thats an error
-				{
-					syserrmsg("file not found");
-				}
-			}
-			char command[50];				//otherwise call head with the rest of the arguments
-			strcpy(command, "head ");
-			for (int i = 1; i < argc; i++)
-			{
-				strcat(command, argv[i]);
-				strcat(command, " ");
-			}
-			system(command);
-			exit(EXIT_SUCCESS);
-		}
+		if (strcmp(argv[1], "-n"))
+			syserrmsg("flag not recognized");
+		lines = atoi(argv[2]);
+		for(int i = 0; i < lines; i ++)			//keep reading and outputing until you get to the correct number of lines
+                {
+                        fgets(buffer, 1000000, stdin);
+                        printf("%s", buffer);
+                }
+		exit(EXIT_SUCCESS);
 	}
-	*/
+	if (argc == 4)						//if there are four args then they should be "-n", an int, and a file respectively
+	{
+		if (strcmp(argv[1], "-n"))
+			syserrmsg("flag not recognized");
+		lines = atoi(argv[2]);
+		file = fopen(argv[3], "r");			//argv[3] should hold the file, so try to open it
+		if (file == NULL)
+			syserrmsg("file not found");
+		
+		char c;
+                int i = 0;
+                for (c = getc(file); c != EOF; c = getc(file))	//count the number of lines in the file
+                {
+                        if (c == '\n')
+                        {
+                                i ++;
+                        }
+                }
+		if (i < lines)					//switch if necessary
+			lines = i;
+		
+		fclose(file);
+		file = fopen(argv[3], "r");			//reopen to reset the file offset
+		for(int i = 0; i < lines; i ++)
+                {
+                        fgets(buffer, 1000000, file);		//print lines
+                        printf("%s", buffer);
+                }
+		exit(EXIT_SUCCESS);
+	}
 	return;								//should never get here, but just in case
 }
 
