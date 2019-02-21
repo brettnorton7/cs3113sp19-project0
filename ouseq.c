@@ -33,14 +33,14 @@ void main(int argc, char ** argv)
 		int value1 = atoi(argv[1]);
 		int value2 = atoi(argv[2]);
 
-		if (value1 == value2)
+		if (value1 == value2)				//if they are equal, print the number
 		{
 			printf("%d\n", value1);
 			exit(EXIT_SUCCESS);
 		}
 		else if (value1 < value2)
 		{
-			for (int i = value1; i <= value2; i++)
+			for (int i = value1; i <= value2; i++)	//if the first is smaller then count up
 			{
 				printf("%d\n", i);
 			}
@@ -48,7 +48,7 @@ void main(int argc, char ** argv)
 		}
 		else if (value1 > value2)
 		{
-			for (int i = value1; i >= value2; i--)
+			for (int i = value1; i >= value2; i--)	//if the first is larger then count down
 			{
 				printf("%d\n", i);
 			}

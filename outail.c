@@ -31,7 +31,7 @@ void main(int argc, char* argv[])
 
 		char c;
                 int n = 0;
-                for (c = getc(file); c != EOF; c = getc(file))
+                for (c = getc(file); c != EOF; c = getc(file))	//count the number of lines
                 {
                         if (c == '\n')
                         {
@@ -40,7 +40,7 @@ void main(int argc, char* argv[])
                 }
 		fclose(file);
 		file = fopen(argv[1], "r");
-                for(int i = 0; i < n; i ++)
+                for(int i = 0; i < n; i ++)			//print the lines starting at "lines" and going to the end
                 {
                         fgets(buffer, 1000000, file);
 			if(i >= (n - lines))
@@ -71,7 +71,7 @@ void main(int argc, char* argv[])
 
 		char c;
                 int n = 0;
-                for (c = getc(file); c != EOF; c = getc(file))
+                for (c = getc(file); c != EOF; c = getc(file))	//count the numebr of lines
                 {
                         if (c == '\n')
                         {
@@ -82,35 +82,13 @@ void main(int argc, char* argv[])
                 file = fopen(argv[3], "r");
                 for(int i = 0; i < n; i ++)
                 {
-                        fgets(buffer, 1000000, file);
+                        fgets(buffer, 1000000, file);		//print the lines starting at "lines" and going to the end
                         if(i >= (n - lines))
                                 printf("%s", buffer);
                 }
                 exit(EXIT_SUCCESS);
-		/*
-                char c;
-		int i = 0;
-                for (c = getc(file); c != EOF; c = getc(file))
-                {
-                        if (c == '\n')
-                        {
-                                i ++;
-                        }
-                }
-                if (i < lines)
-                        lines = i;
-
-                fclose(file);
-                file = fopen(argv[3], "r");
-                for(int i = 0; i < lines; i ++)
-                {
-                        fgets(buffer, 1000000, file);
-                        printf("%s", buffer);
-                }
-                exit(EXIT_SUCCESS);
-		*/
         }
-        return;								//again the program should never reach this return statement
+        return;							//again the program should never reach this return statement
 }
 
 /*
