@@ -10,21 +10,24 @@
  *
  * returns: none
  */
-int main(int argc, char* argv[])
+void main(int argc, char* argv[])
 {
+	char command[50];
+	strcpy(command, "echo ");
 	if (argc == 1)			//no arguments passed
 	{
-		fprintf(stdout, "\n");	//prints only a newline to stdout
+		system(command);	//call "echo" on nothing
 		exit(EXIT_SUCCESS);
 	}
 	else
 	{
 		for (int i = 1; i < argc; i++)	//iterate through the args
 		{
-			fprintf(stdout, "%s ", argv[i]);//print off each arg, separated by a space
+			strcat(command, argv[i]); //add them to the command
 		}
-		fprintf(stdout, "\n");		//end with a newline
+		system(command);		//run the "echo" command on all of them
 		exit(EXIT_SUCCESS);
 	}
-	return 0;
+	return;
 }
+
